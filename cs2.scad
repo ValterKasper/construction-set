@@ -48,6 +48,7 @@ module hole(height_multiplier = 1, inside = false, anchor = BOTTOM, pt = 0) {
 
 // cs
 module cs() {
+    // todo here is the sun
     segments_count = 5;
     hole_anchor = FRONT + LEFT + BOTTOM;
     difference() {
