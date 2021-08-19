@@ -31,6 +31,15 @@ jobs:
           sudo mv PrusaSlicer-*.AppImage /usr/local/bin/prusa_slicer
           sudo chmod +x /usr/local/bin/prusa_slicer
           sudo apt-get install libglu1
+
+      - name: Install xvfb (for headless rendering)
+          run: |
+            sudo apt-get install xvfb
+
+      - name: Start Xvfb on a specific display port  
+          run: |
+            Xvfb :99 &
+            export DISPLAY=:99
           
       - name: Build stl & gcode
         run: make
