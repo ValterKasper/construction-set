@@ -36,10 +36,10 @@ jobs:
         run: |
           sudo apt-get install xvfb
 
-      - name: Start Xvfb on a specific display port  
-        run: |
-          Xvfb :5 -screen 0 800x600x24 &
-          export DISPLAY=:5
+      # - name: Start Xvfb on a specific display port  
+      #   run: |
+      #     Xvfb :5 -screen 0 800x600x24 &
+      #     export DISPLAY=:5
           
       - name: Build stl & gcode
         run: make
@@ -47,7 +47,7 @@ jobs:
       - name: Render
         run: |
           echo display: $DISPLAY
-          make plate.png
+          xvfb-run make plate.png
 
       - uses: actions/upload-artifact@v2
         with:
