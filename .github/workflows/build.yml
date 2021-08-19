@@ -21,10 +21,21 @@ jobs:
           wget https://files.openscad.org/OpenSCAD-2021.01-x86_64.AppImage
           sudo mv OpenSCAD-2021.01*-x86_64.AppImage /usr/local/bin/openscad
           sudo chmod +x /usr/local/bin/openscad
+
+      - name: Install Prusa Slicer
+        run: |
+          cd $GITHUB_WORKSPACE
+          wget https://github.com/prusa3d/PrusaSlicer/releases/download/version_2.3.3/PrusaSlicer-2.3.3+linux-x64-GTK3-202107161044.AppImage
+          sudo mv PrusaSlicer-*.AppImage /usr/local/bin/prusa_slicer
+          sudo chmod +x /usr/local/bin/prusa_slicer
           
       - name: Build stl file
         run: |
           openscad foo.scad -o foo.stl
+
+      - name: Generate gcode
+        run: |
+          prusa_slicer foo.stl --export-gcode --load config.ini -o foo.gcode
 
       - name: Run a multi-line script
         run: |
