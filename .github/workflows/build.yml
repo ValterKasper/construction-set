@@ -33,13 +33,13 @@ jobs:
           sudo apt-get install libglu1
 
       - name: Install xvfb (for headless rendering)
-          run: |
-            sudo apt-get install xvfb
+        run: |
+          sudo apt-get install xvfb
 
       - name: Start Xvfb on a specific display port  
-          run: |
-            Xvfb :99 &
-            export DISPLAY=:99
+        run: |
+          Xvfb :99 &
+          export DISPLAY=:99
           
       - name: Build stl & gcode
         run: make
