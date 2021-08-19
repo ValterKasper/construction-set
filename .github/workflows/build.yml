@@ -35,11 +35,6 @@ jobs:
       - name: Install xvfb (for headless rendering)
         run: |
           sudo apt-get install xvfb
-
-      # - name: Start Xvfb on a specific display port  
-      #   run: |
-      #     Xvfb :5 -screen 0 800x600x24 &
-      #     export DISPLAY=:5
           
       - name: Build stl & gcode
         run: make
