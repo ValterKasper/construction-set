@@ -1,4 +1,4 @@
-BASE_FILE_NAME=cs1
+BASE_FILE_NAME=lift_arm
 SLICER_CONFIG_FILE=config.ini
 GEOM_EXT=stl
 
