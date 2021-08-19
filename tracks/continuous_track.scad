@@ -1,6 +1,7 @@
 include <BOSL2/std.scad>
 include <BOSL2/hull.scad>
-include <joiner.scad>
+
+
 
 $fn = 24;
 c = 0.01;
@@ -163,21 +164,21 @@ module track_piece(left = true, right = true, r = holder_radius, h = track_heigh
         children();
     }
 }
-/* 
+
 spin = -30;
 track_piece(left = false, spin=spin)
-// position("end_center") track_piece(spin=spin)
-// position("end_center") track_piece(spin=spin)
-// position("end_center") track_piece(spin=spin)
-
-// position("end_center") track_piece(spin=spin)
-// position("end_center") track_piece(spin=spin)
-// position("end_center") track_piece(spin=spin)
-// position("end_center") track_piece(spin=spin)
-
-// position("end_center") track_piece(spin=spin)
 position("end_center") track_piece(spin=spin)
 position("end_center") track_piece(spin=spin)
-position("end_center") track_piece(right = false, spin=spin); */
+position("end_center") track_piece(spin=spin)
+
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(spin=spin)
+
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(spin=spin)
+position("end_center") track_piece(right = false, spin=spin);
 
 
