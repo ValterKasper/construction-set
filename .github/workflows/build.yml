@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       
       - name: Install OpenSCAD
         run: |
@@ -30,16 +32,6 @@ jobs:
           sudo chmod +x /usr/local/bin/prusa_slicer
           sudo apt-get install libglu1
           
-      - name: Build stl file
-        run: |
-          openscad foo.scad -o foo.stl
-
-      - name: Generate gcode
-        run: |
-          prusa_slicer foo.stl --export-gcode --load config.ini -o foo.gcode
-
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Build stl & gcode
+        run: make
           
