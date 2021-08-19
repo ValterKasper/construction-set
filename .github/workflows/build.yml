@@ -38,14 +38,16 @@ jobs:
 
       - name: Start Xvfb on a specific display port  
         run: |
-          Xvfb :99 &
-          export DISPLAY=:99
+          Xvfb :5 -screen 0 800x600x24 &
+          export DISPLAY=:5
           
       - name: Build stl & gcode
         run: make
 
       - name: Render
-        run: make plate.png
+        run: |
+          echo display: $DISPLAY
+          make plate.png
 
       - uses: actions/upload-artifact@v2
         with:
