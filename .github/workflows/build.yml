@@ -42,7 +42,7 @@ jobs:
       - name: Render
         run: |
           echo display: $DISPLAY
-          xvfb-run make plate.png
+          xvfb-run make render_print_bed
 
       - uses: actions/upload-artifact@v2
         with:
