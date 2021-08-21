@@ -10,6 +10,7 @@ hole_thickness = 1.2;
 hole_size = 8;
 cs_size = hole_size + 2 * wall_thickness;
 height = hole_size / 2;
+liftarm_chamfer = 1;
 
 // Wall thickness
 th = 1.8; // [1:0.1:3]
@@ -20,56 +21,58 @@ ear_width = 0.5; // [0.1:0.05:1]
 // Height of ears and top
 pieces_height = 1.8; // [1:0.1:3]
 
-
-module ch_rect(dim, cut = 0) {
-    region([round_corners(rect(dim), method="chamfer", cut=cut)]);
-}
-
-// cube
-module hole(height_multiplier = 1, inside = false, anchor = BOTTOM, pt = 0) {
-    chamfer = 0.2;
-    diff("hole")
+module hole_mask(height_multiplier = 1, anchor = CENTER) {
     cuboid(
-        [hole_size + pt, hole_size + pt, height * height_multiplier], 
-        chamfer=-chamfer,
-        edges=[TOP,BOT],
-        $fn=24,
+        [
+            hole_size + print_tolerance, 
+            hole_size + print_tolerance, 
+            height * height_multiplier + nothing
+        ], 
+        chamfer = -0.2,
+        edges = [TOP,BOT],
+        $fn = 24,
         anchor = anchor 
-    ) {
-        if (inside) {
-            cylinder(r = (hole_size - hole_thickness * 2) / 2, h = height * height_multiplier + nothing, $tags="hole", anchor = CENTER);
-            position(CENTER) cube([hole_size / 2 + chamfer, hole_thickness, height * height_multiplier + nothing], $tags="hole", anchor = LEFT); 
-        }
-    };
+    );
 }
 
-// cs
-module cs() {
-    // todo here is the sun
-    segments_count = 5;
-    hole_anchor = FRONT + LEFT + BOTTOM;
-    difference() {
-        linear_extrude(height)
-        ch_rect([cs_size * segments_count, cs_size], 1);
-
-        move([wall_thickness - print_tolerance / 2, wall_thickness  - print_tolerance / 2]) {
-            hole(anchor = hole_anchor, pt = print_tolerance);
-            move([cs_size, 0]) {
-                hole(anchor = hole_anchor, pt = print_tolerance);
-                move([cs_size, 0]) {
-                    hole(anchor = hole_anchor, pt = print_tolerance);
-                        move([cs_size, 0]) {
-                            hole(anchor = hole_anchor, pt = print_tolerance);
-                            move([cs_size, 0]) {
-                                hole(anchor = hole_anchor, pt = print_tolerance);
-                            }
-                        }
-                    }
+module liftarm_component(
+    chamfer = [0, 0, 0, 0], 
+    anchor = CENTER, 
+    spin = 0, 
+    orient = UP
+) {
+    attachable(anchor, spin, orient, size = size) {
+        size = [cs_size, cs_size, height];
+        chamfer_values = [
+            liftarm_chamfer * chamfer[0], 
+            liftarm_chamfer * chamfer[1], 
+            liftarm_chamfer * chamfer[2], 
+            liftarm_chamfer * chamfer[3]
+        ];
+        difference() {
+            union() {
+                linear_extrude(height, center=true)
+                rect([cs_size, cs_size], anchor = CENTER, chamfer = chamfer_values);
             }
+
+            hole_mask(anchor = CENTER);
         }
+        children();
     }
 }
 
+module liftarm_8() {
+    liftarm_component(chamfer = [0, 1, 1, 0])
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT, chamfer = [1, 0, 0, 1]);
+}
+
+// todo move
 module joiner(height_multiplier = 2) {
     difference() {
         linear_extrude(hole_size - print_tolerance * 2)
@@ -104,13 +107,4 @@ module joiner(height_multiplier = 2) {
     }
 }
 
-// cube([3, 3, hole_size - print_tolerance * 2], anchor = RIGHT + FWD + BOTTOM, );
-// mirror_copy([1,1,0])
-// left(cs_size/2 - pieces_height)
-// fwd(height + print_tolerance * 2 + pieces_height * 2)
-// joiner(1);
-
-cs();
-
-
-
+liftarm_8();
