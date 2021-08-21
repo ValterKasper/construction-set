@@ -29,7 +29,9 @@ $(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT): $(BASE_FILE_NAME).$(GEOM_EXT) $(SLIC
 $(PRINT_BED_CONTENT_FILE_NAME).png: $(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT) $(PRINT_BED_SCENE_FILE)
 	openscad $(PRINT_BED_SCENE_FILE) -o $@ --preview --imgsize=2048,2048 --colorscheme "Tomorrow Night" -D file_name=\"$(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT)\"
 
+render_print_bed: $(PRINT_BED_CONTENT_FILE_NAME).png
+
 clear: 
-	rm *.$(GEOM_EXT)
-	rm *.gcode
-	rm *.png
+	rm -f *.$(GEOM_EXT)
+	rm -f *.gcode
+	rm -f *.png
