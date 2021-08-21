@@ -46,5 +46,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          path: plate.png
+          path: print_bed_content.png
           
