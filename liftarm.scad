@@ -1,7 +1,7 @@
 include <BOSL2/std.scad>
 include <BOSL2/rounding.scad>
-
-c = 0.01;
+include <liftarm_dimensions.scad>
+include <constants.scad>
 
 $fn = 36;
 
@@ -10,9 +10,6 @@ hole_thickness = 1.2;
 hole_size = 8;
 cs_size = hole_size + 2 * wall_thickness;
 height = hole_size / 2;
-
-// Print tolerance
-print_tolerance = 0.15; // [0.0:0.05:0.5]
 
 // Wall thickness
 th = 1.8; // [1:0.1:3]
@@ -40,8 +37,8 @@ module hole(height_multiplier = 1, inside = false, anchor = BOTTOM, pt = 0) {
         anchor = anchor 
     ) {
         if (inside) {
-            cylinder(r = (hole_size - hole_thickness * 2) / 2, h = height * height_multiplier + c, $tags="hole", anchor = CENTER);
-            position(CENTER) cube([hole_size / 2 + chamfer, hole_thickness, height * height_multiplier + c], $tags="hole", anchor = LEFT); 
+            cylinder(r = (hole_size - hole_thickness * 2) / 2, h = height * height_multiplier + nothing, $tags="hole", anchor = CENTER);
+            position(CENTER) cube([hole_size / 2 + chamfer, hole_thickness, height * height_multiplier + nothing], $tags="hole", anchor = LEFT); 
         }
     };
 }
