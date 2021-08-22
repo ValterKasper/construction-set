@@ -1,7 +1,8 @@
 SLICER_CONFIG_FILE = config.ini
 PRINT_BED_CONTENT = print_bed_content
 PRINT_BED_SCENE_FILE = print_bed_scene.scad
-GEOMS = liftarm_2.stl liftarm_3.stl liftarm_8.stl liftarm_8.stl
+GEOMS = liftarm_corner_3.stl liftarm_corner_5.stl liftarm_corner_9.stl \
+	liftarm_2.stl liftarm_3.stl liftarm_8.stl 
 
 $(PRINT_BED_CONTENT).stl: $(GEOMS) $(SLICER_CONFIG_FILE)
 	prusa_slicer \
@@ -30,7 +31,7 @@ print_bed_preview: $(PRINT_BED_CONTENT).stl
 	prusa_slicer $< --export-gcode --load $(SLICER_CONFIG_FILE) -o $@
 
 # generate geometry
-%.stl: %.scad
+%.stl: %.scad liftarm.scad
 	openscad $< -o $@
 
 clear: 
