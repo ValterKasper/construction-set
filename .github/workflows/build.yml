@@ -37,12 +37,12 @@ jobs:
           sudo apt-get install xvfb
           
       - name: Build stl & gcode
-        run: make
+        run: make print_bed_content.gcode
 
       - name: Render
         run: |
           echo display: $DISPLAY
-          xvfb-run make render_print_bed
+          xvfb-run make print_bed_content.png
 
       - uses: actions/upload-artifact@v2
         with:
