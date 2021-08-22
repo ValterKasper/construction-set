@@ -1,41 +1,26 @@
 SLICER_CONFIG_FILE = config.ini
-PRINT_BED_CONTENT = print_bed_content
-PRINT_BED_SCENE_FILE = print_bed_scene.scad
-GEOMS = liftarm_corner_3.stl liftarm_corner_5.stl liftarm_corner_9.stl \
-	liftarm_2.stl liftarm_3.stl liftarm_8.stl 
-
-$(PRINT_BED_CONTENT).stl: $(GEOMS) $(SLICER_CONFIG_FILE)
-	prusa_slicer \
-		$(GEOMS) \
-		--export-stl --load $(SLICER_CONFIG_FILE)
-
-# todo fix
-$(PRINT_BED_CONTENT).gcode: $(PRINT_BED_CONTENT).stl $(SLICER_CONFIG_FILE)
-	prusa_slicer \
-		$< \
-		--export-gcode --load $(SLICER_CONFIG_FILE) -o $(PRINT_BED_CONTENT).gcode
-
-$(PRINT_BED_CONTENT).png: $(PRINT_BED_CONTENT).stl $(PRINT_BED_SCENE_FILE)
-	openscad \
-		$(PRINT_BED_SCENE_FILE) \
-		-o $@ \
-		--preview \
-		--imgsize=2048,2048 \
-		--colorscheme "Tomorrow Night" \
-		-D file_name=\"$(PRINT_BED_CONTENT).stl\"
-
-print_bed_preview: $(PRINT_BED_CONTENT).stl
-	prusa_slicer --load $(SLICER_CONFIG_FILE) $<
+OUTPUT_DIR = output
 
 # generate gcode
-%.gcode: %.stl $(SLICER_CONFIG_FILE)
+$(OUTPUT_DIR)/%.gcode: $(OUTPUT_DIR)/%.stl $(SLICER_CONFIG_FILE)
+	mkdir -p $(@D)
 	prusa_slicer $< --export-gcode --load $(SLICER_CONFIG_FILE) -o $@
 
 # generate geometry
-%.stl: %.scad liftarm.scad
+$(OUTPUT_DIR)/%.stl: %.scad liftarm.scad
+	mkdir -p $(@D)
 	openscad $< -o $@
 
+# render preview
+$(OUTPUT_DIR)/%.png: %.scad
+	mkdir -p $(@D)
+	openscad $< \
+		-o $@ \
+		--render \
+		--imgsize=1024,1024 \
+		--colorscheme "Tomorrow Night" \
+
 clear: 
-	rm -f *.stl
-	rm -f *.gcode
-	rm -f *.png
+	rm -f $(OUTPUT_DIR)/*.stl
+	rm -f $(OUTPUT_DIR)/*.gcode
+	rm -f $(OUTPUT_DIR)/*.png

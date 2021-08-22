@@ -36,16 +36,13 @@ jobs:
         run: |
           sudo apt-get install xvfb
           
-      - name: Build geometry
-        run: make print_bed_content.stl
+      - name: Build gcodes
+        run: ./build_gcodes.sh
 
-      # - name: Render
-      #   run: |
-      #     echo display: $DISPLAY
-      #     xvfb-run make print_bed_content.png
+      - name: Render previews
+        run: xvfb-run ./render_previews.sh
 
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     path: |
-      #       print_bed_content.png
+      - uses: actions/upload-artifact@v2
+        with:
+          path: output/
           
