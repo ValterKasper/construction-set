@@ -7,8 +7,9 @@ GEOMS = liftarm_corner_3.stl liftarm_corner_5.stl liftarm_corner_9.stl \
 $(PRINT_BED_CONTENT).stl: $(GEOMS) $(SLICER_CONFIG_FILE)
 	prusa_slicer \
 		$(GEOMS) \
-		--merge --export-stl --load $(SLICER_CONFIG_FILE) -o $@
+		--export-stl --load $(SLICER_CONFIG_FILE)
 
+# todo fix
 $(PRINT_BED_CONTENT).gcode: $(PRINT_BED_CONTENT).stl $(SLICER_CONFIG_FILE)
 	prusa_slicer \
 		$< \
