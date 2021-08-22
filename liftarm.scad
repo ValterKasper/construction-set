@@ -86,6 +86,52 @@ module liftarm_2() {
     position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
 }
 
+module liftarm_corner_9() {
+    liftarm_component(chamfer = [0, 0, 1, 0]) {
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT, chamfer = [1, 1, 0, 0]);
+
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
+    }
+}
+
+module liftarm_corner_5() {
+    liftarm_component(chamfer = [0, 0, 1, 0]) {
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT, chamfer = [1, 1, 0, 0]);
+
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
+    }
+}
+
+module liftarm_corner_3() {
+    liftarm_component(chamfer = [0, 0, 1, 0]) {
+        position(BACK) liftarm_component(anchor = FRONT)
+        position(BACK) liftarm_component(anchor = FRONT, chamfer = [1, 1, 0, 0]);
+
+        position(RIGHT) liftarm_component(anchor = LEFT)
+        position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
+    }
+}
+
 // todo move
 module joiner(height_multiplier = 2) {
     difference() {
