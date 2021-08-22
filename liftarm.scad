@@ -61,6 +61,7 @@ module liftarm_component(
     }
 }
 
+
 liftarm_start_chamfer = [0, 1, 1, 0];
 liftarm_end_chamfer = [1, 0, 0, 1];
 module liftarm_8() {
