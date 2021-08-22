@@ -5,25 +5,35 @@ PRINT_BED_CONTENT_FILE_NAME=print_bed_content
 PRINT_BED_SCENE_FILE=print_bed_scene.scad
 
 # generate gcode for 3d printing
-$(BASE_FILE_NAME).gcode: $(BASE_FILE_NAME).$(GEOM_EXT) $(SLICER_CONFIG_FILE)
-	prusa_slicer $(BASE_FILE_NAME).$(GEOM_EXT) --export-gcode --load $(SLICER_CONFIG_FILE) -o $@
+liftarm_2.gcode: liftarm_2.$(GEOM_EXT) $(SLICER_CONFIG_FILE)
+	prusa_slicer liftarm_2.$(GEOM_EXT) --export-gcode --load $(SLICER_CONFIG_FILE) -o $@
 
-preview_gcode: $(BASE_FILE_NAME).gcode
+preview_gcode: liftarm_2.gcode
 	prusa_slicer --gcodeviewer $^
 
-preview_slicer: $(BASE_FILE_NAME).$(GEOM_EXT)
+preview_slicer: liftarm_2.$(GEOM_EXT)
 	prusa_slicer --load $(SLICER_CONFIG_FILE) $^
 
-preview_scad: $(BASE_FILE_NAME).scad
-	openscad $^
+# generate liftarm_2 geometry file
+liftarm_2.$(GEOM_EXT): $(BASE_FILE_NAME).scad
+	openscad generator.scad -D type=\"liftarm_2\" -o $@
 
-# generate geometry file
-$(BASE_FILE_NAME).$(GEOM_EXT): $(BASE_FILE_NAME).scad
-	openscad $^ -o $@
+# generate liftarm_3 geometry file
+liftarm_3.$(GEOM_EXT): $(BASE_FILE_NAME).scad
+	openscad generator.scad -D type=\"liftarm_8\" -o $@
+
+# generate liftarm_8 geometry file
+liftarm_3.$(GEOM_EXT): $(BASE_FILE_NAME).scad
+	openscad generator.scad -D type=\"liftarm_3\" -o $@
 
 # generate geometry on plate for render
-$(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT): $(BASE_FILE_NAME).$(GEOM_EXT) $(SLICER_CONFIG_FILE)
-	prusa_slicer $(BASE_FILE_NAME).$(GEOM_EXT) --export-stl --duplicate 2 --load $(SLICER_CONFIG_FILE) -o $@
+$(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT): liftarm_2.$(GEOM_EXT) liftarm_3.$(GEOM_EXT) liftarm_8.$(GEOM_EXT) $(SLICER_CONFIG_FILE)
+	prusa_slicer \
+		liftarm_2.$(GEOM_EXT) \
+		liftarm_2.$(GEOM_EXT) \
+		liftarm_3.$(GEOM_EXT) \
+		liftarm_8.$(GEOM_EXT) \
+		--merge --export-stl --load $(SLICER_CONFIG_FILE) -o $@
 
 # render plate
 $(PRINT_BED_CONTENT_FILE_NAME).png: $(PRINT_BED_CONTENT_FILE_NAME).$(GEOM_EXT) $(PRINT_BED_SCENE_FILE)
