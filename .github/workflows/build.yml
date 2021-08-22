@@ -39,12 +39,13 @@ jobs:
       - name: Build stl & gcode
         run: make print_bed_content.gcode
 
-      - name: Render
-        run: |
-          echo display: $DISPLAY
-          xvfb-run make print_bed_content.png
+      # - name: Render
+      #   run: |
+      #     echo display: $DISPLAY
+      #     xvfb-run make print_bed_content.png
 
-      - uses: actions/upload-artifact@v2
-        with:
-          path: print_bed_content.png
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     path: |
+      #       print_bed_content.png
           
