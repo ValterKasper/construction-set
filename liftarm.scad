@@ -61,15 +61,28 @@ module liftarm_component(
     }
 }
 
+liftarm_start_chamfer = [0, 1, 1, 0];
+liftarm_end_chamfer = [1, 0, 0, 1];
 module liftarm_8() {
-    liftarm_component(chamfer = [0, 1, 1, 0])
+    liftarm_component(chamfer = liftarm_start_chamfer)
     position(RIGHT) liftarm_component(anchor = LEFT)
     position(RIGHT) liftarm_component(anchor = LEFT)
     position(RIGHT) liftarm_component(anchor = LEFT)
     position(RIGHT) liftarm_component(anchor = LEFT)
     position(RIGHT) liftarm_component(anchor = LEFT)
     position(RIGHT) liftarm_component(anchor = LEFT)
-    position(RIGHT) liftarm_component(anchor = LEFT, chamfer = [1, 0, 0, 1]);
+    position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
+}
+
+module liftarm_3() {
+    liftarm_component(chamfer = liftarm_start_chamfer)
+    position(RIGHT) liftarm_component(anchor = LEFT)
+    position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
+}
+
+module liftarm_2() {
+    liftarm_component(chamfer = liftarm_start_chamfer)
+    position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
 }
 
 // todo move
@@ -106,5 +119,3 @@ module joiner(height_multiplier = 2) {
         chamfer_mask_x(l=hole_size + ear_width * 2, chamfer=2);
     }
 }
-
-liftarm_8();
