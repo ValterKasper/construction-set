@@ -36,8 +36,8 @@ jobs:
         run: |
           sudo apt-get install xvfb
           
-      - name: Build stl & gcode
-        run: make print_bed_content.gcode
+      - name: Build geometry
+        run: make print_bed_content.stl
 
       # - name: Render
       #   run: |
