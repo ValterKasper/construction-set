@@ -1,25 +1,11 @@
 include <BOSL2/std.scad>
 include <BOSL2/rounding.scad>
-include <liftarm_dimensions.scad>
+include <dimensions.scad>
 include <constants.scad>
 
 $fn = 36;
 
-wall_thickness = 1.8;
-hole_thickness = 1.2;
-hole_size = 8;
-cs_size = hole_size + 2 * wall_thickness;
-height = hole_size / 2;
 liftarm_chamfer = 1;
-
-// Wall thickness
-th = 1.8; // [1:0.1:3]
-
-// Width of ends overhang
-ear_width = 0.5; // [0.1:0.05:1]
-
-// Height of ears and top
-pieces_height = 1.8; // [1:0.1:3]
 
 module hole_mask(height_multiplier = 1, anchor = CENTER) {
     cuboid(
@@ -129,40 +115,5 @@ module liftarm_corner_3() {
 
         position(RIGHT) liftarm_component(anchor = LEFT)
         position(RIGHT) liftarm_component(anchor = LEFT, chamfer = liftarm_end_chamfer);
-    }
-}
-
-// todo move
-module joiner(height_multiplier = 2) {
-    difference() {
-        linear_extrude(hole_size - print_tolerance * 2)
-        difference() {
-            union() {
-                body_height = height * height_multiplier + print_tolerance * 2;
-                // body
-                rect([
-                    hole_size - print_tolerance * 2, 
-                    body_height + pieces_height + pieces_height], 
-                    anchor=FRONT);
-                // ears
-                rect([
-                    hole_size + ear_width * 2, 
-                    pieces_height], 
-                    anchor=FRONT,
-                    chamfer=[0,0,0.7,0.7]);
-                // top
-                back(body_height + pieces_height)
-                rect([
-                    cs_size, 
-                    pieces_height], 
-                    anchor=FRONT);
-            }
-
-            union() {
-                // center cut
-                rect([hole_size - th * 2, height * height_multiplier + pieces_height], anchor=FRONT);
-            }
-        }
-        chamfer_mask_x(l=hole_size + ear_width * 2, chamfer=2);
     }
 }
