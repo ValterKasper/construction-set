@@ -1,6 +1,6 @@
 # Construction set
 
-Simple construction set optimizied 3d printing written in OpenSCAD. This project demonstrates use of:
+Simple construction set optimized 3d printing written in OpenSCAD. This project demonstrates use of:
 
 - [BOSL2](https://github.com/revarbat/BOSL2) library that helps write more intetion based code in OpenSCAD
 - GitHub actions for building stl, gcode files and rendering previews on push and merge
