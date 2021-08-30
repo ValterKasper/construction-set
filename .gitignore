@@ -1,6 +1,6 @@
 /BOSL/*
 /BOSL2/*
-*.stl
-*.3mf
-*.gcode
-*.png
+output/*.stl
+output/*.3mf
+output/*.gcode
+output/*.png
